@@ -1,9 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-
 import { AppComponent } from './app.component';
 import { CalculatorComponent } from './calculator/calculator.component';
+import { ResolveService } from './resolve.service';
 
 
 @NgModule({
@@ -14,7 +14,7 @@ import { CalculatorComponent } from './calculator/calculator.component';
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [ResolveService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

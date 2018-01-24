@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ResolveService } from '../resolve.service';
 
 @Component({
   selector: 'app-calculator',
@@ -9,13 +10,15 @@ export class CalculatorComponent implements OnInit {
 
   display = '';
   operator = '';
+  name: string;
+  result: number;
   blank = true;
   firstFigureState = false;
   secondFigureState = false;
   resolvedState = false;
   firstFigure = 0;
   secondFigure = 0;
-  constructor() { }
+  constructor(private service: ResolveService) { }
 
   ngOnInit() {
   }
@@ -29,7 +32,6 @@ export class CalculatorComponent implements OnInit {
     if (this.blank) {
       this.firstFigure = this.firstFigure + input;
       this.blank = false;
-      this.resolvedState = false;
       this.firstFigureState = true;
     } else if (this.firstFigureState) {
       this.firstFigure = 10 * this.firstFigure + input;
@@ -50,27 +52,14 @@ export class CalculatorComponent implements OnInit {
     } else if (this.secondFigureState) {
       if (symbol === '=') {
         this.display = this.display + symbol;
-        this.resolve();
+        this.result = this.service.resolveOperation(this.firstFigure, this.secondFigure, this.operator);
+        this.display = this.display + this.result;
+        this.firstFigure = 0;
+        this.secondFigure = 0;
+        this.resolvedState = true;
+        this.secondFigureState = false;
       }
     }
-  }
-
-  resolve () {
-    let result: number;
-    if (this.operator === '+') {
-      result = this.firstFigure + this.secondFigure;
-    } else if (this.operator === '-') {
-      result = this.firstFigure - this.secondFigure;
-    } else if (this.operator === '*') {
-      result = this.firstFigure * this.secondFigure;
-    } else if (this.operator === '/') {
-      result = this.firstFigure / this.secondFigure;
-    }
-    this.display = this.display + result;
-    this.firstFigure = 0;
-    this.secondFigure = 0;
-    this.resolvedState = true;
-    this.secondFigureState = false;
   }
 
 }
