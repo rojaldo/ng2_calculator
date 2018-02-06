@@ -50,7 +50,7 @@ export class CalculatorComponent implements OnInit {
         this.firstFigureState = false;
       }
     } else if (this.secondFigureState) {
-      if (symbol === '=') {
+      if (symbol === '=' && this.secondFigure !== 0) {
         this.display = this.display + symbol;
         this.result = this.service.resolveOperation(this.firstFigure, this.secondFigure, this.operator);
         this.display = this.display + this.result;
